@@ -103,7 +103,7 @@ jobs:
       ###########################
       #          Build          #
       ###########################
-      - uses: ./
+      - uses: game-ci/unity-builder@v2
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -116,6 +116,6 @@ jobs:
       ###########################
       - uses: actions/upload-artifact@v3
         with:
-          name: Build Ubuntu (${{ matrix.unityVersion }})
-          path: build
+          name: Build ${{ matrix.targetPlatform }} (${{ matrix.unityVersion }})
+          path: build/${{ matrix.targetPlatform }}
           retention-days: 14
