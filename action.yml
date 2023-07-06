@@ -1,0 +1,229 @@
+name: 'Unity - Builder'
+author: Webber Takken <webber@takken.io>
+description: 'Build Unity projects for different platforms.'
+inputs:
+  targetPlatform:
+    required: true
+    default: ''
+    description: 'Platform that the build should target.'
+  unityVersion:
+    required: false
+    default: 'auto'
+    description:
+      'Version of unity to use for building the project. Use "auto" to get from your ProjectSettings/ProjectVersion.txt'
+  customImage:
+    required: false
+    default: ''
+    description: 'Specific docker image that should be used for building the project'
+  projectPath:
+    required: false
+    default: ''
+    description: 'Relative path to the project to be built.'
+  buildName:
+    required: false
+    default: ''
+    description: 'Name of the build. Should not include a file extension.'
+  buildsPath:
+    required: false
+    default: ''
+    description: 'Path where the builds should be stored.'
+  buildMethod:
+    required: false
+    default: ''
+    description: 'Path to a Namespace.Class.StaticMethod to run to perform the build.'
+  customParameters:
+    required: false
+    default: ''
+    description: 'Custom parameters to configure the build.'
+  versioning:
+    required: false
+    default: 'Semantic'
+    description: 'The versioning scheme to use when building the project'
+  version:
+    required: false
+    default: ''
+    description: 'The version, when used with the "Custom" versioning scheme'
+  androidVersionCode:
+    required: false
+    default: ''
+    description: 'The android versionCode'
+  androidExportType:
+    required: false
+    default: 'androidPackage'
+    description:
+      'The android export type. Should be androidPackage for apk, androidAppBundle for aab, or androidStudioProject for
+      an android studio project.'
+  androidKeystoreName:
+    required: false
+    default: ''
+    description: 'The android keystoreName'
+  androidKeystoreBase64:
+    required: false
+    default: ''
+    description: 'The base64 contents of the android keystore file'
+  androidKeystorePass:
+    required: false
+    default: ''
+    description: 'The android keystorePass'
+  androidKeyaliasName:
+    required: false
+    default: ''
+    description: 'The android keyaliasName'
+  androidKeyaliasPass:
+    required: false
+    default: ''
+    description: 'The android keyaliasPass'
+  androidTargetSdkVersion:
+    required: false
+    default: ''
+    description: 'The android target API level.'
+  androidSymbolType:
+    required: false
+    default: 'none'
+    description: 'The android symbol type to export. Should be "none", "public" or "debugging".'
+  sshAgent:
+    required: false
+    default: ''
+    description: 'SSH Agent path to forward to the container'
+  gitPrivateToken:
+    required: false
+    default: ''
+    description: '[CloudRunner] Github private token to pull from github'
+  githubOwner:
+    required: false
+    default: ''
+    description: '[CloudRunner] GitHub owner name or organization/team name'
+  chownFilesTo:
+    required: false
+    default: ''
+    description:
+      'User and optionally group (user or user:group or uid:gid) to give ownership of the resulting build artifacts'
+  allowDirtyBuild:
+    required: false
+    default: ''
+    description: '[CloudRunner] Allows the branch of the build to be dirty, and still generate the build.'
+  postBuildSteps:
+    required: false
+    default: ''
+    description:
+      '[CloudRunner] run a post build job in yaml format with the keys image, secrets (name, value object array),
+      command string'
+  preBuildSteps:
+    required: false
+    default: ''
+    description:
+      '[CloudRunner] Run a pre build job after the repository setup but before the build job (in yaml format with the
+      keys image, secrets (name, value object array), command line string)'
+  containerHookFiles:
+    required: false
+    default: ''
+    description:
+      '[CloudRunner] Specify the names (by file name) of custom steps to run before or after cloud runner jobs, must
+      match a yaml step file inside your repo in the folder .game-ci/steps/'
+  customHookFiles:
+    required: false
+    default: ''
+    description:
+      '[CloudRunner] Specify the names (by file name) of custom hooks to run before or after cloud runner jobs, must
+      match a yaml step file inside your repo in the folder .game-ci/hooks/'
+  customCommandHooks:
+    required: false
+    default: ''
+    description: '[CloudRunner] Specify custom commands and trigger hooks (injects commands into jobs)'
+  customJob:
+    required: false
+    default: ''
+    description:
+      '[CloudRunner] Run a custom job instead of the standard build automation for cloud runner (in yaml format with the
+      keys image, secrets (name, value object array), command line string)'
+  awsStackName:
+    default: 'game-ci'
+    required: false
+    description: '[CloudRunner] The Cloud Formation stack name that must be setup before using this option.'
+  providerStrategy:
+    default: 'local'
+    required: false
+    description:
+      '[CloudRunner] Either local, k8s or aws can be used to run builds on a remote cluster. Additional parameters must
+      be configured.'
+  cloudRunnerCpu:
+    default: ''
+    required: false
+    description: '[CloudRunner] Amount of CPU time to assign the remote build container'
+  cloudRunnerMemory:
+    default: ''
+    required: false
+    description: '[CloudRunner] Amount of memory to assign the remote build container'
+  readInputFromOverrideList:
+    default: ''
+    required: false
+    description: '[CloudRunner] Comma separated list of input value names to read from "input override command"'
+  readInputOverrideCommand:
+    default: ''
+    required: false
+    description:
+      '[CloudRunner] Extend game ci by specifying a command to execute to pull input from external source e.g cloud
+      provider secret managers'
+  kubeConfig:
+    default: ''
+    required: false
+    description:
+      '[CloudRunner] Supply a base64 encoded kubernetes config to run builds on kubernetes and stream logs until
+      completion.'
+  kubeVolume:
+    default: ''
+    required: false
+    description: '[CloudRunner] Supply a Persistent Volume Claim name to use for the Unity build.'
+  kubeStorageClass:
+    default: ''
+    required: false
+    description:
+      '[CloudRunner] Kubernetes storage class to use for cloud runner jobs, leave empty to install rook cluster.'
+  kubeVolumeSize:
+    default: '5Gi'
+    required: false
+    description: '[CloudRunner] Amount of disc space to assign the Kubernetes Persistent Volume'
+  cacheKey:
+    default: ''
+    required: false
+    description: '[CloudRunner] Cache key to indicate bucket for cache'
+  watchToEnd:
+    default: 'true'
+    required: false
+    description:
+      '[CloudRunner] Whether or not to watch the build to the end. Can be used for especially long running jobs e.g
+      imports or self-hosted ephemeral runners.'
+  cacheUnityInstallationOnMac:
+    default: 'false'
+    required: false
+    description: 'Whether to cache the Unity hub and editor installation on MacOS'
+  unityHubVersionOnMac:
+    default: ''
+    required: false
+    description:
+      'The version of Unity Hub to install on MacOS (e.g. 3.4.0). Defaults to latest available on brew if empty string
+      or nothing is specified.'
+  unityLicensingServer:
+    default: ''
+    required: false
+    description: 'The Unity licensing server address to use for activating Unity.'
+  dockerWorkspacePath:
+    default: '/github/workspace'
+    required: false
+    description:
+      'The path to mount the workspace inside the docker container. For windows, leave out the drive letter. For example
+      c:/github/workspace should be defined as /github/workspace'
+
+outputs:
+  volume:
+    description: 'The Persistent Volume (PV) where the build artifacts have been stored by Kubernetes'
+  buildVersion:
+    description: 'The generated version used for the Unity build'
+  androidVersionCode:
+    description: 'The generated versionCode used for the Android Unity build'
+branding:
+  icon: 'box'
+  color: 'gray-dark'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
