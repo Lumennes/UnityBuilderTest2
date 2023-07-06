@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEditor.Build.Reporting;
 using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.Build;
 
 namespace UnityBuilderAction
 {
@@ -17,6 +18,8 @@ namespace UnityBuilderAction
         private static readonly string[] Secrets =
             {"androidKeystorePass", "androidKeyaliasName", "androidKeyaliasPass"};
 
+
+        [MenuItem("Tools/Build")]
         public static void Build()
         {
             // Gather values from args
@@ -68,9 +71,9 @@ namespace UnityBuilderAction
 
                         break;
                     }
-                //case BuildTarget.StandaloneOSX:
-                //    PlayerSettings.SetScriptingBackend(BuildTargetGroup.Standalone, ScriptingImplementation.Mono2x);
-                //    break;
+                case BuildTarget.StandaloneOSX:
+                    PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+                  break;
             }
 
             // Custom build
@@ -84,24 +87,24 @@ namespace UnityBuilderAction
             if (!validatedOptions.TryGetValue("projectPath", out string _))
             {
                 Console.WriteLine("Missing argument -projectPath");
-                EditorApplication.Exit(110);
+                //EditorApplication.Exit(110);
             }
 
             if (!validatedOptions.TryGetValue("buildTarget", out string buildTarget))
             {
                 Console.WriteLine("Missing argument -buildTarget");
-                EditorApplication.Exit(120);
+                //EditorApplication.Exit(120);
             }
 
             if (!Enum.IsDefined(typeof(BuildTarget), buildTarget ?? string.Empty))
             {
-                EditorApplication.Exit(121);
+                //EditorApplication.Exit(121);
             }
 
             if (!validatedOptions.TryGetValue("customBuildPath", out string _))
             {
                 Console.WriteLine("Missing argument -customBuildPath");
-                EditorApplication.Exit(130);
+                //EditorApplication.Exit(130);
             }
 
             const string defaultCustomBuildName = "TestBuild";
@@ -197,20 +200,20 @@ namespace UnityBuilderAction
             {
                 case BuildResult.Succeeded:
                     Console.WriteLine("Build succeeded!");
-                    EditorApplication.Exit(0);
+                    //EditorApplication.Exit(0);
                     break;
                 case BuildResult.Failed:
                     Console.WriteLine("Build failed!");
-                    EditorApplication.Exit(101);
+                    //EditorApplication.Exit(101);
                     break;
                 case BuildResult.Cancelled:
                     Console.WriteLine("Build cancelled!");
-                    EditorApplication.Exit(102);
+                    //EditorApplication.Exit(102);
                     break;
                 case BuildResult.Unknown:
                 default:
                     Console.WriteLine("Build result is unknown!");
-                    EditorApplication.Exit(103);
+                    //EditorApplication.Exit(103);
                     break;
             }
         }

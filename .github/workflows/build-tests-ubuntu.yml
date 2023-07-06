@@ -116,6 +116,7 @@ jobs:
           buildMethod: UnityBuilderAction.BuildScript.Build
           #customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           providerStrategy: ${{ matrix.providerStrategy }}
+          allowDirtyBuild: true
 
       ###########################
       #          Upload         #
