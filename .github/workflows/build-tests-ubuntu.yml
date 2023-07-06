@@ -68,11 +68,11 @@ jobs:
           #- 2021.3.19f1
           #- 2022.1.24f1
           #- 2022.2.7f1          
-          - 2020.3.48f1
-          - 2021.3.28f1
-          - 2022.3.4f1
+          #- 2020.3.48f1
+          #- 2021.3.28f1
+          #- 2022.3.4f1
           - 2023.1.0f1
-          - 2023.1.3f1
+          #- 2023.1.3f1
         targetPlatform:
           #- StandaloneOSX # Build a macOS standalone (Intel 64-bit) with mono backend.
           - StandaloneWindows64 # Build a Windows 64-bit standalone with mono backend.
@@ -113,7 +113,8 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          #customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           providerStrategy: ${{ matrix.providerStrategy }}
 
       ###########################
